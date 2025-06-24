@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flujo Catastral Interactivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .node {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .node:hover {
+      background-color: #e2f0ff;
+    }
+    .hidden {
+      display: none;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    .children {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flujo de Relaciones, Inconsistencias y Modificaciones</h1>
+
+  <img src="flujo_relaciones_inconsistencias_modificaciones.png" alt="Esquema gráfico del flujo">
+
+  <div class="container">
+    <div class="node" onclick="toggle('relacion')">Inicio: Finca inscrita</div>
+    <div id="relacion" class="children hidden">
+      <div class="node" onclick="toggle('r0')">¿Tiene plano catastrado válido? - No</div>
+      <div id="r0" class="children hidden">
+        <div class="node">Relación 0: No tiene plano catastrado</div>
+        <div class="node">Inconsistencia 03 o 05</div>
+      </div>
+      <div class="node" onclick="toggle('r1_5')">¿Tiene plano catastrado válido? - Sí</div>
+      <div id="r1_5" class="children hidden">
+        <div class="node" onclick="toggle('evaluacion')">Relación 1 a 5: Evaluar condiciones</div>
+        <div id="evaluacion" class="children hidden">
+          <div class="node">✔ Consistente → Modificación tipo 0</div>
+          <div class="node" onclick="toggle('inconsistencias')">✘ Inconsistente → Revisar</div>
+          <div id="inconsistencias" class="children hidden">
+            <div class="node">Inconsistencias: 04, 06, 07, 08, 09, 10, 11</div>
+            <div class="node" onclick="toggle('modificacion')">¿Requiere modificación?</div>
+            <div id="modificacion" class="children hidden">
+              <div class="node">Modificación 1-2: Nombre/Cédula</div>
+              <div class="node">Modificación 3-6: Plano, Colindantes</div>
+              <div class="node">Modificación 9: No representa el predio</div>
+              <div class="node">Modificación 0: No requiere modificación</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggle(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.toggle('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
